@@ -1,0 +1,107 @@
+.navbar {
+    background-color: #303236; /* Fond noir semi-transparent */
+    padding: 15px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px); /* Effet de flou */
+    position: fixed; /* Changer de relative à fixed */
+    top: 0; /* Positionner en haut de la page */
+    left: 0; /* S'assurer qu'elle est alignée à gauche */
+    right: 0; /* S'assurer qu'elle s'étend sur toute la largeur */
+    z-index: 1000; /* Assurez-vous que la navbar est au-dessus du contenu */
+}
+  
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+  .navbar-logo {
+    color: #ffffff;
+    font-size: 1.5em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+    gap: 10px;
+  }
+  
+  .navbar-logo:hover {
+    color: #ffffff; /* Changement de couleur au survol */
+  }
+  
+  .navbar-menu {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+  
+  .navbar-menu li {
+    margin-left: 30px;
+  }
+  
+  .navbar-menu a, .navbar-menu button {
+    color: #ffffff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 10px 15px;
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar-menu a:hover, .navbar-menu button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fond clair au survol */
+    color: #ffffff; /* Changement de couleur au survol */
+  }
+
+  .navbar-menu-button:hover {
+    background-color: rgba(255, 0, 0, 0.7) !important;
+  }
+  
+  .menu-icon {
+    display: none;
+  }
+  
+  @media screen and (max-width: 922px) {
+    .navbar-menu a, .navbar-menu button {
+      font-size: 0.81em;
+    }
+
+    .navbar-menu li {
+      margin-left: 10px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .menu-icon {
+      display: block;
+      color: #ffffff;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+  
+    .navbar-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 20px 0;
+      border-radius: 5px; /* Coins arrondis pour le menu mobile */
+    }
+  
+    .navbar-menu.active {
+      display: flex;
+    }
+  
+    .navbar-menu li {
+      margin: 10px 0;
+    }
+  }

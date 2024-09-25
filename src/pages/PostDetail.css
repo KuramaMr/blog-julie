@@ -1,0 +1,309 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.post-detail-container {
+    max-width: 900px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 14px 20px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+  }
+
+  .post-detail-chargement {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 14px 20px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .post-detail-title {
+    font-size: 2.5em;
+    color: #ffffff;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+  }
+  
+  .post-detail-date {
+    font-style: italic;
+    color: #ffffff;
+    margin-top: 30px;
+    text-align: right;
+  }
+  
+  @media (max-width: 768px) {
+    .post-detail-container {
+      padding: 20px;
+      margin: 20px;
+    }
+  
+    .post-detail-title {
+      font-size: 2em;
+    }
+  }
+
+.post-detail-content {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Styles pour l'alignement du texte */
+.post-detail-content .ql-align-center {
+  text-align: center;
+}
+
+.post-detail-content .ql-align-right {
+  text-align: right;
+}
+
+.post-detail-content .ql-align-justify {
+  text-align: justify;
+}
+
+/* Autres styles existants... */
+
+.post-detail-content h1, .post-detail-content h2, .post-detail-content h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.post-detail-content ul, .post-detail-content ol {
+  margin-left: 20px;
+}
+
+.post-detail-content blockquote {
+  border-left: 3px solid #ccc;
+  margin-left: 0;
+  padding-left: 10px;
+  color: #666;
+}
+
+.post-detail-content pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.post-detail-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.post-detail-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.post-detail-content a:hover {
+  text-decoration: underline;
+}
+
+.delete-post-button {
+  margin: 20px 10px 0 0;
+  padding: 10px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-post-button:hover {
+  background-color: #ff0019 !important;
+}
+
+.post-detail-info {
+    font-style: italic;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.edit-post-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-post-button:hover {
+  background-color: #0056b3;
+}
+
+.editor-container {
+  position: relative;
+}
+
+.floating-toolbar {
+  position: sticky;
+  top: 67px;
+  background-color: white;
+  z-index: 1000;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.post-detail-container .ql-container {
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #1a1a1a, #303236, #303236, #1a1a1a);
+  animation: gradientAnimation 5s ease infinite;
+  background-size: 400% 400%;
+  transition: border-color 0.3s;
+  min-height: 300px; 
+  border-radius: 5px;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.post-detail-container .ql-container:focus-within {
+  border-color: #FFF;
+}
+
+.post-detail-container button,
+.post-detail-container .image-upload-button {
+  width: 100%; 
+  padding: 12px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px; 
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.post-detail-container button:hover,
+.post-detail-container .image-upload-button:hover {
+  background-color: #0056b3; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 91, 187, 0.3); 
+}
+
+.post-detail-container button:active,
+.post-detail-container .image-upload-button:active {
+  transform: translateY(0);
+}
+
+.post-detail-container .image-upload-button {
+  background-color: #28a745; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 20px;
+  padding: 12px 20px;
+}
+
+.post-detail-container .image-upload-button:hover {
+  background-color: #218838; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); 
+}
+
+.post-detail-container .image-upload-button:active {
+  transform: translateY(0);
+}
+
+.post-detail-container .ql-editor img {
+  max-width: 100%; 
+  height: auto; 
+  width: 700px;
+  object-fit: cover; 
+  border-radius: 5px;
+  margin: 10px 0; 
+}
+
+.ql-toolbar .ql-snow {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.post-detail-container .ql-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 8px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.post-detail-container .ql-formats {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.post-detail-container .ql-picker-label {
+  display: flex;
+  align-items: center;
+}
+
+.post-detail-container .ql-toolbar .ql-picker-label {
+  padding: 0 5px;
+}
+
+@media (max-width: 768px) {
+  .post-detail-container .ql-toolbar {
+      justify-content: flex-start;
+  }
+  
+  .post-detail-container .ql-formats {
+      margin: 2px;
+  }
+  
+  .post-detail-container .ql-toolbar button,
+  .post-detail-container .ql-toolbar .ql-picker {
+      width: 24px;
+      height: 24px;
+  }
+}
+
+.edit-container {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.post-detail-container input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.post-detail-container input[type="date"]:focus {
+  border-color: #FFF;
+  outline: none;
+}
