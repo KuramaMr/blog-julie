@@ -13,7 +13,7 @@ function SearchPosts() {
     const [dateFilter, setDateFilter] = useState('');
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [sortOrder, setSortOrder] = useState('date');
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin] = useState(false);
 
     useEffect(() => {
         const fetchPosts = async () => {

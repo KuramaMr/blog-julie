@@ -18,7 +18,7 @@ function PostDetail() {
     const [content, setContent] = useState('');
     const [travelDate, setTravelDate] = useState('');
     const [country, setCountry] = useState('');
-    const [isAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const editorRef = useRef(null);
     const [scrollPosition, setScrollPosition] = useState(0);
