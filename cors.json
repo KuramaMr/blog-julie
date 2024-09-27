@@ -1,7 +1,8 @@
 [
     {
       "origin": ["http://localhost:3000", "https://reve-europe.netlify.app"],
-      "method": ["GET", "POST", "PUT"],
+      "method": ["GET", "HEAD", "OPTIONS"],
+      "responseHeader": ["Content-Type"],
       "maxAgeSeconds": 3600
     }
   ]

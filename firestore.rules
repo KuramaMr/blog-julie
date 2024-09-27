@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (request.auth.uid == userId || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true);
+    }
+    match /posts/{postId} {
+      allow read: if true; // Permet la lecture à tous les utilisateurs, connectés ou non
+      allow write: if request.auth != null; // Seuls les utilisateurs connectés peuvent écrire
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
