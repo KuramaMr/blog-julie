@@ -12,23 +12,32 @@ function Home({ user, isAdmin }) {
 
     useEffect(() => {
         const fetchPosts = async () => {
+          try {
             const postsCollection = collection(db, 'posts');
             const q = query(postsCollection, orderBy('createdAt', 'desc'));
             const postSnapshot = await getDocs(q);
             const postList = await Promise.all(postSnapshot.docs.map(async (doc) => {
-                const data = doc.data();
-                if (data.isLongPost) {
-                    const storageRef = ref(storage, data.content);
-                    const url = await getDownloadURL(storageRef);
-                    const response = await fetch(url);
-                    const text = await response.text();
-                    data.content = text;
+              const data = doc.data();
+              if (data.isLongPost) {
+                const storageRef = ref(storage, data.content);
+                try {
+                  const url = await getDownloadURL(storageRef);
+                  const response = await fetch(url);
+                  const text = await response.text();
+                  data.content = text;
+                } catch (error) {
+                  console.error("Erreur lors de la récupération du contenu:", error);
+                  data.content = "Erreur de chargement du contenu";
                 }
-                return { id: doc.id, ...data };
+              }
+              return { id: doc.id, ...data };
             }));
             setPosts(postList);
+          } catch (error) {
+            console.error("Erreur lors de la récupération des posts:", error);
+          }
         };
-
+      
         fetchPosts();
     }, []);
 
