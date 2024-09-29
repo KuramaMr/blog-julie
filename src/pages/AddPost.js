@@ -66,6 +66,7 @@ function AddPost({ isAdmin }) {
     const [content, setContent] = useState('');
     const [travelDate, setTravelDate] = useState('');
     const [country, setCountry] = useState('');
+    const [description, setDescription] = useState(''); // Nouveau champ
     const navigate = useNavigate();
     const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -134,6 +135,7 @@ function AddPost({ isAdmin }) {
                 content: contentRef,
                 travelDate: new Date(travelDate),
                 country: country,
+                description: description, // Ajout de la description
                 createdAt: new Date(),
                 isLongPost: new Blob([content]).size > 900000
             });
@@ -192,6 +194,12 @@ function AddPost({ isAdmin }) {
                     placeholder="Pays"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
+                    required
+                />
+                <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Courte description du voyage"
                     required
                 />
                 <div className="editor-container" ref={editorRef}>

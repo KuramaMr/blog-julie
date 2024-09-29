@@ -193,6 +193,24 @@
     outline: none;
 }
 
+.add-post-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.add-post-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
 .editor-container {
     position: relative;
 }

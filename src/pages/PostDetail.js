@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import EditorToolbar, { modules, formats } from "../components/EditorToolbar";
 
 function PostDetail() {
-    const { postId } = useParams(); // Assurez-vous que le paramètre est correctement nommé
+    const { postId } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [title, setTitle] = useState('');
@@ -22,6 +22,9 @@ function PostDetail() {
     const [isEditing, setIsEditing] = useState(false);
     const editorRef = useRef(null);
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadingProgress, setLoadingProgress] = useState(0);
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         const saveScrollPosition = () => {
@@ -41,30 +44,57 @@ function PostDetail() {
                 return;
             }
 
-            const docRef = doc(db, "posts", postId);
-            const docSnap = await getDoc(docRef);
+            setIsLoading(true);
+            setLoadingProgress(0);
+            const startTime = Date.now();
+            const minLoadingTime = 1000; // Temps minimum de chargement en ms
 
-            if (docSnap.exists()) {
-                const postData = docSnap.data();
-                setTitle(postData.title);
-                setTravelDate(postData.travelDate.toDate().toLocaleDateString());
-                setCountry(postData.country);
-
-                if (postData.isLongPost) {
-                    // Si c'est un long post, récupérer le contenu depuis Storage
-                    const storageRef = ref(storage, postData.content);
-                    const url = await getDownloadURL(storageRef);
-                    const response = await fetch(url);
-                    const text = await response.text();
-                    setContent(text);
-                } else {
-                    // Sinon, utiliser directement le contenu de Firestore
-                    setContent(postData.content);
+            const updateProgress = () => {
+                const elapsedTime = Date.now() - startTime;
+                const progress = Math.min((elapsedTime / minLoadingTime) * 100, 100);
+                setLoadingProgress(progress);
+                if (elapsedTime < minLoadingTime) {
+                    requestAnimationFrame(updateProgress);
                 }
-                setPost(postData);
-            } else {
-                console.log("No such document!");
-                navigate('/'); // Rediriger vers la page d'accueil si le post n'existe pas
+            };
+
+            requestAnimationFrame(updateProgress);
+
+            try {
+                const docRef = doc(db, "posts", postId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const postData = docSnap.data();
+                    setTitle(postData.title);
+                    setTravelDate(postData.travelDate.toDate().toLocaleDateString());
+                    setCountry(postData.country);
+                    setDescription(postData.description || ''); // Ajout de la description
+
+                    if (postData.isLongPost) {
+                        const storageRef = ref(storage, postData.content);
+                        const url = await getDownloadURL(storageRef);
+                        const response = await fetch(url);
+                        const text = await response.text();
+                        setContent(text.replace(/\S+/g, word => word + ' ').trim());
+                    } else {
+                        setContent(postData.content.replace(/\S+/g, word => word + ' ').trim());
+                    }
+                    setPost(postData);
+                } else {
+                    console.log("No such document!");
+                    navigate('/');
+                }
+
+                const timeElapsed = Date.now() - startTime;
+                if (timeElapsed < minLoadingTime) {
+                    await new Promise(resolve => setTimeout(resolve, minLoadingTime - timeElapsed));
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération du post:", error);
+            } finally {
+                setIsLoading(false);
+                setLoadingProgress(100);
             }
         };
 
@@ -133,6 +163,7 @@ function PostDetail() {
                 content: contentRef,
                 travelDate: new Date(travelDate),
                 country: country,
+                description: description, // Ajout de la description
                 isLongPost: new Blob([content]).size > 900000
             });
     
@@ -157,14 +188,25 @@ function PostDetail() {
         }
     };
 
+    if (isLoading) {
+        return (
+            <div className="post-detail-chargement">
+                <p>Chargement du post...</p>
+                <div className="loading-bar-container">
+                    <div className="loading-bar" style={{ width: `${loadingProgress}%` }}></div>
+                </div>
+            </div>
+        );
+    }
+    
     if (!post) {
-        return <div className="post-detail-chargement"><p>Chargement...</p></div>;
+        return <div className="post-detail-chargement"><p>Post non trouvé</p></div>;
     }
 
     if (isEditing) {
         return (
             <div className="post-detail-container">
-                <h1 className="post-detail-title">Modifier le Post</h1>
+                <h1>Modifier le post</h1>
                 <form onSubmit={handleUpdate}>
                     <input
                         className="edit-container"
@@ -185,6 +227,12 @@ function PostDetail() {
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
                         required
+                    />
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Description courte du voyage"
+                        name="description"
                     />
                     <div className="editor-container" ref={editorRef}>
                         <div className="floating-toolbar">
@@ -216,6 +264,7 @@ function PostDetail() {
                 {post.country && post.travelDate && ' | '}
                 {post.travelDate && `Date du voyage : ${post.travelDate.toDate().toLocaleDateString()}`}
             </p>
+            <p className="post-detail-description">{post.description}</p>
             <ReactQuill
                 value={content}
                 readOnly={true}
